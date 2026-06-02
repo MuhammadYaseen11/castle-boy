@@ -93,7 +93,7 @@ function onAction() {
     if (phase !== 'playing') return;
     if (!tw.done) { tw.shown = tw.full; tw.done = true; return; }
     if (gs.level === 2 && !gs.forestDone) return; // must walk to box
-    if (gs.level === 3 || gs.level === 4) return;  // must mine
+    if ((gs.level === 3 || gs.level === 4) && gs.mineProgress < gs.maxMine) return; // must mine first
     if (gs.level === 5 && !gs.swordDone) return;   // must walk to sword
     playSound('click');
     advanceDlg();
@@ -182,6 +182,12 @@ function advanceDlg() {
 }
 
 // ===== FADE TRANSITION =====
+function switchLevel(lvl) {
+    gs.level = lvl; gs.dlgIdx = 0; gs.px = 150; gs.stamina = 100;
+    gs.mineProgress = 0; gs.swordDone = false;
+    setDlg(levels[lvl].lines[0]);
+}
+
 function beginFade(toLevel) {
     phase = 'fading'; fadeAlpha = 0; fadeDir = 1; pendingLevel = toLevel;
     playSound('fanfare');
@@ -777,3 +783,10 @@ function loop(ts) {
 }
 
 requestAnimationFrame(loop);
+
+// Debug bridge for automated testing / screenshots
+window._game = {
+    jumpTo: (lvl) => { phase = 'playing'; switchLevel(lvl); },
+    setState: (patch) => Object.assign(gs, patch),
+    endGame: () => { phase = 'end'; },
+};
