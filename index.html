@@ -5,8 +5,22 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>The Boy Who Dreamed of a Castle</title>
   <style>
-    canvas { background: #2c2f33; display: block; margin: auto; }
-    body { margin: 0; font-family: 'Segoe UI'; }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      background: #000;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      font-family: 'Segoe UI', sans-serif;
+    }
+    canvas {
+      display: block;
+      max-width: 100vw;
+      max-height: 100vh;
+      cursor: pointer;
+      image-rendering: pixelated;
+    }
   </style>
 </head>
 <body>
